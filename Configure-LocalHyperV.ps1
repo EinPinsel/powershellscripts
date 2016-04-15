@@ -37,8 +37,11 @@ function Set-LocalHyperVConfiguration
     Process
     {
         
+        # Dirty "old" way of doing stuff. Maybe look into wsman...
+        # Set-Item WSMan:\localhost\Client\TrustedHosts -Value "10.0.2.33" -Force (needs to be validated)
+        winrm set winrm/config/client "'@{TrustedHosts=$hypervhost}'"
 
-        winrm set winrm/config/client '@{TrustedHosts=$hypervhost}'
+        # Dirty way via cmdkey, could be better to port this function to PS sometime...
         cmdkey.exe /add:$hypervhost /user:ADMINISTRATOR /pass:PasswordA
 
         if ($pscmdlet.ShouldProcess('Target', 'Operation'))
