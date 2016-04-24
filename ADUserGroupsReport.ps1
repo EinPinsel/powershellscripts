@@ -1,0 +1,1 @@
+﻿Get-ADuser -Filter * | Select-Object Name,@{n='Groups';e={Get-ADPrincipalGroupMembership $_ | Select-Object -exp name} } 
